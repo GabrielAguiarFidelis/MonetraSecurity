@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+       <meta charset="UTF-8">
+       <meta http-equiv="X-UA-Compatible" content="IE=7">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <meta name="author" content="Gabriel Fidelis">
+       <meta name="description"
+              content="Monetra is a secure and user-friendly login system designed to protect your online accounts. With advanced encryption and multi-factor authentication, Monetra ensures that your personal information remains safe from unauthorized access. Experience seamless and secure login with Monetra, your trusted guardian for online security.">
+       <title>Monetra | Secure Login</title>
+       <link rel="stylesheet" href="style.css">
+       <link rel="shortcut icon" href="img/icons8-financiar-64.png" type="image/x-icon">
+       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css">
+       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+       <div class="container">
+              <div class="form-box login">
+                     <form action="">
+                            <h1>Login</h1>
+                            <div class="input-box">
+                                   <input type="text" placeholder="Username" required>
+                                   <i class="ri-user-line"></i>
+                            </div>
+                            <div class="input-box">
+                                   <input type="password" placeholder="Password" required>
+                                   <i class="ri-lock-fill"></i>
+                            </div>
+                            <button type="submit" class="btn">Login</button>
+                     </form>
+              </div>
+
+              <div class="form-box register">
+                     <form action="">
+                            <h1>Registration</h1>
+                            <div class="input-box">
+                                   <input type="text" placeholder="Username" required>
+                                   <i class="ri-user-line"></i>
+                            </div>
+                            <div class="input-box">
+                                   <input type="text" placeholder="Email" required>
+                                   <i class="ri-mail-line"></i>
+                            </div>
+                            <div class="input-box">
+                                   <input type="password" placeholder="Password" required>
+                                   <i class="ri-lock-fill"></i>
+                            </div>
+                            <div class="input-box select-box">
+                                   <div class="selected-plan" onclick="togglePlans()">
+                                          <span id="selectedText">Select the plan</span>
+                                   </div>
+
+                                   <div class="plan-dropdown" id="planDropdown">
+                                          <div onclick="selectPlan('free')">FREE</div>
+                                          <div onclick="selectPlan('pro')">PRO</div>
+                                          <div onclick="selectPlan('premium')">PREMIUM</div>
+                                   </div>
+
+                                   <input type="hidden" name="plan" id="planInput" value="free">
+
+                                   <i class="ri-vip-crown-fill"></i>
+                            </div>
+                            <button type="submit" class="btn">Register</button>
+                     </form>
+              </div>
+
+              <div class="toggle-box">
+                     <div class="toggle-panel toggle-left">
+                            <h1>Hello, Welcome!</h1>
+                            <p class="p">Don't have an account?</p>
+                            <button class="btn register-btn">Sign Up</button>
+                     </div>
+                     <div class="toggle-panel toggle-right">
+                            <h1>Welcome Back!</h1>
+                            <p class="p">Already have an account?</p>
+                            <button class="btn login-btn">Sign In</button>
+                     </div>
+              </div>
+       </div>
+
+       <script src="script.js"></script>
+</body>
+
+</html>
