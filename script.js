@@ -32,7 +32,7 @@ document.addEventListener("click", function (e) {
 });
 
 // Validação de formulário
-document.querySelector(".login form").addEventListener("submit", async (e) => {
+document.querySelector("#loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const email = document.getElementById("loginEmail").value;
@@ -67,7 +67,7 @@ document.querySelector(".login form").addEventListener("submit", async (e) => {
     });
 
     // redireciona
-    window.location.href = "/dashboard.html";
+    window.location.href = "./PlanFree/index.html";
   } catch (err) {
     console.error(err);
     alert("Erro ao conectar com servidor");
