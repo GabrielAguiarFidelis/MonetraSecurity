@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=7">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="author" content="Gabriel Fidelis" />
+  <meta name="description" content="Aplicativo para controle financeiro pessoal." />
+
+  <title>Monetra</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="shortcut icon" href="/img/icons8-financeiro-96.png" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css" rel="stylesheet">
+  <script>
+    window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+  </script>
+  <script defer src="/_vercel/insights/script.js"></script>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <h2><i class="ri-wallet-fill"></i> Finanças</h2>
+
+    <button onclick="showPage('dashboard')">
+      <i class="ri-dashboard-line"></i> Dashboard
+    </button>
+
+    <button onclick="showPage('ganhos')">
+      <i class="ri-money-dollar-circle-line"></i> Ganhos
+    </button>
+
+    <button onclick="showPage('gastos')">
+      <i class="ri-shopping-cart-line"></i> Gastos
+    </button>
+  </aside>
+
+  <!-- CONTEÚDO -->
+  <main class="content">
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="page active">
+      <h1>Dashboard</h1>
+
+      <div class="filtro-mes">
+        <label for="filtroMes">📆 Mês:</label>
+        <input type="month" id="filtroMes" class="filter" />
+      </div>
+
+      <div class="cards">
+        <div class="card green">
+          <span>Ganhos</span>
+          <strong id="totalGanhos">R$ 0,00</strong>
+        </div>
+
+        <div class="card red">
+          <span>Gastos</span>
+          <strong id="totalGastos">R$ 0,00</strong>
+        </div>
+
+        <div class="card blue">
+          <span>Lucro</span>
+          <strong id="lucro">R$ 0,00</strong>
+        </div>
+      </div>
+
+      <div class="grafico-box">
+        <canvas id="graficoMensal"></canvas>
+      </div>
+
+    </section>
+
+    <!-- GANHOS -->
+    <section id="ganhos" class="page">
+      <div class="box-gastos">
+        <h1>Adicionar Ganho</h1>
+
+        <div class="box">
+          <input type="date" id="ganhoData" placeholder="Escolha a Data" />
+          <input type="text" id="ganhoDesc" placeholder="Descrição do ganho" />
+          <input type="number" id="ganhoValor" placeholder="R$ Valor do ganho" />
+          <button onclick="addGanho()">Salvar Ganho</button>
+        </div>
+
+        <ul id="listaGanhos"></ul>
+      </div>
+    </section>
+
+    <!-- GASTOS -->
+    <section id="gastos" class="page">
+      <div class="box-gastos">
+        <h1>Adicionar Gasto</h1>
+
+        <div class="box">
+          <input type="date" id="gastoData" />
+          <input type="text" id="gastoDesc" placeholder="Descrição do gasto" />
+          <input type="number" id="gastoValor" placeholder="R$ Valor do gasto" />
+          <button class="danger" onclick="addGasto()">
+            Salvar Gasto
+          </button>
+        </div>
+
+        <ul id="listaGastos"></ul>
+      </div>
+    </section>
+  </main>
+
+  <!-- SCRIPT -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js" defer></script>
+</body>
+
+</html>

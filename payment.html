@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+       <meta charset="UTF-8">
+       <meta name="viewport" content="width=device-width, initial-scale=1.0">
+       <title>Pagamento - Monetra</title>
+       <script src="https://js.stripe.com/v3/"></script>
+       <style>
+              body {
+                     font-family: Arial, sans-serif;
+                     text-align: center;
+                     padding: 50px;
+                     background: #f8fafc;
+              }
+
+              .container {
+                     max-width: 500px;
+                     margin: 0 auto;
+                     background: white;
+                     padding: 40px;
+                     border-radius: 12px;
+                     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+              }
+
+              button {
+                     padding: 15px 40px;
+                     font-size: 1.2rem;
+                     background: #635bff;
+                     color: white;
+                     border: none;
+                     border-radius: 8px;
+                     cursor: pointer;
+              }
+       </style>
+</head>
+
+<body>
+       <div class="container">
+              <h1>Finalizar Pagamento</h1>
+              <p id="planInfo">Carregando...</p>
+              <button id="payButton">
+                     Pagar com Stripe
+              </button>
+       </div>
+
+       <script src="payment.js"></script>
+</body>
+
+</html>

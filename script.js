@@ -39,7 +39,7 @@ document.querySelector("#loginForm").addEventListener("submit", async (e) => {
   const password = document.getElementById("loginPassword").value;
 
   try {
-    const response = await fetch("https://firstapi-l386.onrender.com/login", {
+    const response = await fetch("http://localhost:3000/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -80,19 +80,26 @@ document
   .addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const nome = document.getElementById("registerUsername").value;
-    const email = document.getElementById("registerEmail").value;
+    const nome = document.getElementById("registerUsername").value.trim();
+    const email = document.getElementById("registerEmail").value.trim();
     const password = document.getElementById("registerPassword").value;
-    const plano = document.getElementById("planInput").value.toUpperCase();
+    let plano = document.getElementById("planInput").value.toUpperCase().trim();
+
+    if (!nome || !email || !password || !plano) {
+      Swal.fire({
+        icon: "warning",
+        title: "Atenção",
+        text: "Preencha todos os campos!",
+      });
+      return;
+    }
 
     try {
       const response = await fetch(
-        "https://firstapi-l386.onrender.com/usuarios",
+        "http://localhost:3000/usuarios",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ nome, email, password, plano }),
         },
       );
@@ -103,27 +110,39 @@ document
         Swal.fire({
           icon: "error",
           title: "Erro",
-          text: data.error || "Algo deu errado",
+          text: data.error || "Erro ao criar conta",
         });
         return;
       }
 
       Swal.fire({
         icon: "success",
-        title: "Sucesso!",
-        text: "Conta criada com sucesso 🚀",
-        text: "Faça login para acessar seu dashboard",
-        confirmButtonColor: "#3085d6",
+        title: "Conta criada!",
+        text:
+          plano === "FREE"
+            ? "Redirecionando para o plano Free..."
+            : `Redirecionando para pagamento do plano ${plano}...`,
+        showConfirmButton: false,
+        timer: 1600,
       });
 
-      // opcional: trocar pro login
-      document.querySelector(".login-btn").click();
+      // === LÓGICA DE REDIRECIONAMENTO ===
+      setTimeout(() => {
+        if (plano === "FREE") {
+          window.location.href = "./PlanFree/index.html";
+        } else if (plano === "PRO" || plano === "PREMIUM") {
+          // Redireciona para página de pagamento passando o email e o plano
+          window.location.href = `./payment.html?email=${encodeURIComponent(email)}&plano=${plano}`;
+        } else {
+          window.location.href = "./PlanFree/index.html"; // fallback
+        }
+      }, 1600);
     } catch (err) {
       console.error(err);
       Swal.fire({
         icon: "error",
         title: "Erro",
-        text: "Erro ao conectar com servidor",
+        text: "Erro ao conectar com o servidor",
       });
     }
   });
