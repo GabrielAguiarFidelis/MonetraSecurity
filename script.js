@@ -121,7 +121,7 @@ document
         text:
           plano === "FREE"
             ? "Redirecionando para o plano Free..."
-            : `Redirecionando para pagamento do plano ${plano}...`,
+            : `Gerando código Pix para o plano ${plano}...`,
         showConfirmButton: false,
         timer: 1600,
       });

@@ -2,49 +2,214 @@
 <html lang="pt-BR">
 
 <head>
-       <meta charset="UTF-8">
-       <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <title>Pagamento - Monetra</title>
-       <script src="https://js.stripe.com/v3/"></script>
-       <style>
-              body {
-                     font-family: Arial, sans-serif;
-                     text-align: center;
-                     padding: 50px;
-                     background: #f8fafc;
-              }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagamento Pix - Monetra</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.2.0/fonts/remixicon.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #635bff;
+            --primary-dark: #4f46e5;
+            --pix-color: #32bcad;
+            --bg: #f8fafc;
+            --text: #1e293b;
+        }
 
-              .container {
-                     max-width: 500px;
-                     margin: 0 auto;
-                     background: white;
-                     padding: 40px;
-                     border-radius: 12px;
-                     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-              }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
 
-              button {
-                     padding: 15px 40px;
-                     font-size: 1.2rem;
-                     background: #635bff;
-                     color: white;
-                     border: none;
-                     border-radius: 8px;
-                     cursor: pointer;
-              }
-       </style>
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 450px;
+            width: 100%;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .plan-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            background: #e2e8f0;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        .pix-section {
+            background: #f1f5f9;
+            padding: 25px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+
+        .qr-placeholder {
+            width: 180px;
+            height: 180px;
+            background: white;
+            margin: 0 auto 20px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #e2e8f0;
+            position: relative;
+        }
+
+        .copy-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            text-align: left;
+        }
+
+        .copy-box label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 8px;
+        }
+
+        .pix-code {
+            flex: 1;
+            padding: 12px;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: #334155;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .btn-copy {
+            padding: 0 15px;
+            background: var(--pix-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-copy:hover {
+            background: #2aa396;
+        }
+
+        .btn-confirm {
+            width: 100%;
+            padding: 16px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 12px rgba(99, 91, 255, 0.2);
+        }
+
+        .btn-confirm:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .footer-note {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .footer-note i {
+            color: var(--pix-color);
+            margin-right: 4px;
+        }
+    </style>
 </head>
 
 <body>
-       <div class="container">
-              <h1>Finalizar Pagamento</h1>
-              <p id="planInfo">Carregando...</p>
-              <button id="payButton">
-                     Pagar com Stripe
-              </button>
-       </div>
+    <div class="container">
+        <div class="header">
+            <div id="planBadge" class="plan-badge">Carregando...</div>
+            <h1>Pagamento via Pix</h1>
+            <p>Escaneie o QR Code ou copie o código abaixo</p>
+        </div>
 
-       <script src="payment.js"></script>
+        <div class="pix-section">
+            <div class="qr-placeholder" id="qrContainer">
+                <i class="ri-qr-code-line" style="font-size: 100px; color: #e2e8f0;"></i>
+            </div>
+
+            <div class="copy-box">
+                <label>Pix Copia e Cola</label>
+                <div class="input-group">
+                    <div id="pixCode" class="pix-code">monetra-pay-392847293847293847293847293847</div>
+                    <button class="btn-copy" onclick="copyPix()">
+                        <i class="ri-file-copy-line"></i>
+                        Copiar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-confirm" id="payButton">
+            Já realizei o pagamento
+        </button>
+
+        <p class="footer-note">
+            <i class="ri-shield-check-fill"></i>
+            Pagamento seguro via Monetra Pay
+        </p>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="payment.js"></script>
 </body>
 
 </html>

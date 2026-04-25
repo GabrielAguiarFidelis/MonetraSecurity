@@ -1,44 +1,40 @@
 const urlParams = new URLSearchParams(window.location.search);
 const email = urlParams.get("email");
-const plano = urlParams.get("plano");
+const plano = urlParams.get("plano") || "PRO";
 
-document.getElementById("planInfo").innerHTML = `
-    <strong>Plano:</strong> ${plano}<br>
-    <strong>Email:</strong> ${email}
-  `;
+// Atualiza a interface com o plano
+document.getElementById("planBadge").textContent = `Plano ${plano}`;
+
+// Gera um código "Pix" fictício baseado no plano
+const pixCodes = {
+  PRO: "00020101021126580014br.gov.bcb.pix0136monetra-pro-key-12345678901234567890520400005303986540529.905802BR5915MonetraSecurity6009Sao Paulo62070503***6304E1A2",
+  PREMIUM: "00020101021126580014br.gov.bcb.pix0136monetra-premium-key-09876543210987654321520400005303986540549.905802BR5915MonetraSecurity6009Sao Paulo62070503***6304B2C3",
+};
+
+const currentPixCode = pixCodes[plano.toUpperCase()] || pixCodes.PRO;
+document.getElementById("pixCode").textContent = currentPixCode;
+
+function copyPix() {
+  const code = document.getElementById("pixCode").textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    Swal.fire({
+      icon: "success",
+      title: "Copiado!",
+      text: "Código Pix copiado para a área de transferência.",
+      timer: 1500,
+      showConfirmButton: false,
+    });
+  });
+}
 
 const payButton = document.getElementById("payButton");
 
-payButton.addEventListener("click", async () => {
+payButton.addEventListener("click", () => {
   payButton.disabled = true;
-  payButton.textContent = "Redirecionando para o Stripe...";
+  payButton.textContent = "Verificando pagamento...";
 
-  try {
-    const response = await fetch(
-      "http://localhost:3000/create-checkout-session",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, plano }),
-      },
-    );
-
-    const data = await response.json();
-
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Erro",
-        text: "Não foi possível gerar o pagamento",
-      });
-    }
-  } catch (err) {
-    Swal.fire({
-      icon: "error",
-      title: "Erro",
-      text: "Erro de conexão com o servidor",
-    });
-  }
+  // Simula uma verificação de 2 segundos
+  setTimeout(() => {
+    window.location.href = `success.html?plano=${plano}`;
+  }, 2000);
 });
